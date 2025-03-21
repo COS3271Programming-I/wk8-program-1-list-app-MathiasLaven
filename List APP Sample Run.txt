@@ -1,0 +1,45 @@
+Enter a set of initial list values, separated by spaces. You will be able to edit this list before finalizing. 
+>>37 test 3.14159 @
+
+Current list:
+[37, test, 3.14159, @]
+
+Do you want to edit any items? Type an item number (e.g. "1" for entry #1) to modify that position, or anything else to finalize your list. 
+>>3
+Item #3 is currently 3.14159. Type "add" to insert an item at this position, "edit" to edit the existing item, or "delete" to remove this item. 
+>>edit
+What do you want to change this item to? 
+>>2.71828
+Item #3 has been changed to 2.71828.
+
+Current list:
+[37, test, 2.71828, @]
+
+Do you want to edit another item? Type the item number to modify that position, or anything else to finalize your list. 
+>>4
+
+Item #4 is currently @. Type "add" to insert an item at this position, "edit" to edit the existing item, or "delete" to remove this item. 
+>>add
+What do you want to add at this position? 
+>>test2
+Item #4 has been changed to test2.
+
+Current list:
+[37, test, 2.71828, test2, @]
+
+Do you want to edit another item? Type the item number to modify that position, or anything else to finalize your list. 
+>>1
+
+Item #1 is currently 37. Type "add" to insert an item at this position, "edit" to edit the existing item, or "delete" to remove this item. 
+>>delete
+Item #1 has been deleted.
+
+Current list:
+[test, 2.71828, test2, @]
+
+Do you want to edit another item? Type the item number to modify that position, or anything else to finalize your list. 
+>>finalize
+
+
+Final list:
+[test, 2.71828, test2, @]

@@ -1,0 +1,155 @@
+package my_project;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class MyClass {
+    static Scanner userinput = new Scanner(System.in);
+    public static void main(String[] args) {
+    	
+    	//initial list
+    	System.out.print("Enter a set of initial list values, separated by spaces. You will be able to edit this list before finalizing. \n>>");
+    	String entries = userinput.nextLine();
+    	
+    	//make it into an array first for parsing
+		String[] entriesStringArray = entries.split(" ");
+		List<Object> entriesList = new ArrayList<>();
+		
+		//parse type of each entry
+		for (int i = 0; i < entriesStringArray.length; i++) {
+			String currentString = entriesStringArray[i];
+			if (stringIsInteger(currentString)) { //integer
+				entriesList.add(Integer.parseInt(currentString));
+			} else if (currentString.length() == 1) { //single character
+				entriesList.add(currentString.charAt(0));
+			} else if (stringIsFloat(currentString)) {
+				entriesList.add(Float.parseFloat(currentString));
+			} else {
+				entriesList.add(currentString); //standard string
+			}
+
+		}
+		
+		//print list for clarity
+    	System.out.println("");
+    	System.out.println("Current list:");
+    	System.out.println(entriesList);
+    	System.out.println("");
+    	
+    	System.out.print("Do you want to edit any items? Type an item number (e.g. \"1\" for entry #1) to modify that position, or anything else to finalize your list. \n>>");
+    	String editInput = userinput.nextLine();
+    	
+    	//editing loop
+    	while (stringIsInteger(editInput)) {
+    		
+    		int editIndex = Integer.parseInt(editInput);
+    		
+    		//make sure it's in bounds
+    		if (editIndex >= 1 && editIndex <= entriesList.size()) {
+            	System.out.format("Item #%d is currently " + entriesList.get(editIndex-1) + ". Type \"add\" to insert an item at this position, \"edit\" to edit the existing item, or \"delete\" to remove this item. \n>>", editIndex);
+            	String editType = userinput.nextLine();
+            	
+            	if (editType.equals("add")) {
+            		//get value
+                	System.out.format("What do you want to add at this position? \n>>");
+                	String editedValue = userinput.nextLine();
+                	
+                	//parse type and add
+        			if (stringIsInteger(editedValue)) { //integer
+        				entriesList.add(editIndex-1, Integer.parseInt(editedValue));
+        			} else if (editedValue.length() == 1) { //single character
+        				entriesList.add(editIndex-1, editedValue.charAt(0));
+        			} else if (stringIsFloat(editedValue)) {
+        				entriesList.add(editIndex-1, Float.parseFloat(editedValue));
+        			} else {
+        				entriesList.add(editIndex-1, editedValue); //standard string
+        			}
+                	
+                	System.out.format("Item #%d has been changed to " + entriesList.get(editIndex-1) + ".\n", editIndex);
+            	} else if (editType.equals("edit")) {
+            		//get value
+                	System.out.format("What do you want to change this item to? \n>>");
+                	String editedValue = userinput.nextLine();
+                	
+                	//parse type and add
+        			if (stringIsInteger(editedValue)) { //integer
+                    	entriesList.set(editIndex-1, Integer.parseInt(editedValue));
+        			} else if (editedValue.length() == 1) { //single character
+        				entriesList.set(editIndex-1, editedValue.charAt(0));
+        			} else if (stringIsFloat(editedValue)) {
+        				entriesList.set(editIndex-1, Float.parseFloat(editedValue));
+        			} else {
+        				entriesList.set(editIndex-1, editedValue); //standard string
+        			}
+                	
+                	System.out.format("Item #%d has been changed to " + entriesList.get(editIndex-1) + ".\n", editIndex);
+            	} else if (editType.equals("delete")) {
+            		//simple removal
+                	entriesList.remove(editIndex-1);
+                	
+                	System.out.format("Item #%d has been deleted.\n", editIndex);
+            	} else {
+            		//fail-safe, will loop around and let them try again
+                	System.out.println("That is not a valid option. Please provide one of \"add\", \"edit\", or \"delete\".");
+            	}
+            	
+    		} else {
+            	System.out.println("That number is out of bounds. Please provide a valid item number within the list.");
+    		}
+    		
+    		//print for clarity
+        	System.out.println("");
+        	System.out.println("Current list:");
+        	System.out.println(entriesList);
+        	System.out.println("");
+    		
+        	System.out.print("Do you want to edit another item? Type the item number to modify that position, or anything else to finalize your list. \n>>");
+        	editInput = userinput.nextLine();
+        	
+        	System.out.println("");
+
+    	}
+    	
+    	//final print
+    	System.out.println("");
+    	System.out.println("Final list:");
+    	System.out.println(entriesList);
+		
+	}
+    public static boolean stringIsInteger(String string) {
+    	
+    	//the same stringIsNumber function from last week, no changes
+    	
+    	char[] stringChars = string.toCharArray();
+    	for (int i = 0; i < stringChars.length; i++) {
+    		if (!Character.isDigit(stringChars[i])) {
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    	
+    }
+    public static boolean stringIsFloat(String string) {
+    	
+    	//above function modified to also check for a decimal point
+    	
+    	//https://stackoverflow.com/questions/275944/how-do-i-count-the-number-of-occurrences-of-a-char-in-a-string
+    	int numberOfDecimals = string.length() - string.replace(".", "").length();
+    	if (numberOfDecimals > 1) { return false; };
+    	
+    	//necessary to ensure decimals aren't picked up,
+    	//safe to do this because the above check would return early
+    	string = string.replace(".", "");
+    	
+    	char[] stringChars = string.toCharArray();
+    	for (int i = 0; i < stringChars.length; i++) {
+    		if (!Character.isDigit(stringChars[i])) {
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    	
+    }
+}
